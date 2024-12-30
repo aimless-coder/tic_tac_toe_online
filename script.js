@@ -19,15 +19,15 @@ const restartBtnEl = document.getElementById('restart');
 
 let circleTurn;
 
-function placeMark(cell, currentClass){
+const placeMark = (cell, currentClass) => {
     cell.classList.add(currentClass);
 };
 
-function swapTurn(){
+const swapTurn = () =>{
     circleTurn = !circleTurn;
 };
 
-function setBoardHover() {
+const setBoardHover = () => {
     boardEl.classList.remove(CIRCLE_CLASS);
     boardEl.classList.remove(CROSS_CLASS);
 
@@ -38,7 +38,7 @@ function setBoardHover() {
     }
 };
 
-function winCheck(currentClass){
+const winCheck = (currentClass) =>{
     return WIN_COMBINATION.some( combination => {
         return combination.every(index => {
             return cellEl[index].classList.contains(currentClass);
@@ -46,13 +46,13 @@ function winCheck(currentClass){
     })
 };
 
-function isDraw(){
+const isDraw = () => {
     return [...cellEl].every(cell =>{
         return cell.classList.contains(CROSS_CLASS) || cell.classList.contains(CIRCLE_CLASS);
     });
 }
 
-function showResult(draw){
+const showResult = (draw) =>{
     if (draw) {
         winMsgEl.innerText = 'Draw !!!';
     }else{
@@ -61,7 +61,7 @@ function showResult(draw){
     winScreenEl.classList.add('show');
 }
 
-function handleClick(event){
+const handleClick = (event) =>{
     const cell = event.target;
     const currentClass = circleTurn ? CIRCLE_CLASS : CROSS_CLASS;
 
@@ -77,7 +77,7 @@ function handleClick(event){
     
 };
 
-function startGame(){
+const startGame = () =>{
     winScreenEl.classList.remove('show');
     circleTurn = false;
 
