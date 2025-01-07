@@ -3,30 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic-Tac=-Toe</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="./src/styles/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./src/js/script.js" defer></script>
+    
 </head>
 <body>
     <div class="container">
-        <div class="board" id="board">
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-        </div>
+        <section class="intro" id="introArea">
+            <div class="title">
+                <div class="logo-cell"><span class="T1">T</span></div>
+                <div class="logo-cell"><span class="I">I</span></div>
+                <div class="logo-cell"><span class="C1">C</span></div>
+                <div class="logo-cell"><span class="T2">T</span></div>
+                <div class="logo-cell"><span class="A">A</span></div>
+                <div class="logo-cell"><span class="C2">C</span></div>
+                <div class="logo-cell"><span class="T3">T</span></div>
+                <div class="logo-cell"><span class="O">O</span></div>
+                <div class="logo-cell"><span class="E">E</span></div>
+            </div>
+            <h2>ONLINE</h2>
+            <div class="btn-box">
+                <button id="quickJoin" disabled>Quick Join</button>
+                <button id="createRoom" disabled>Create Room</button>
+                <div class="join-room">
+                    <input type="text" id="roomInput" placeholder="Enter Room ID" required>
+                    <button id="joinRoom" disabled>Join</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="game" id="gameArea">
+            <h3><span class="T1">T</span>
+                <span class="I">I</span>
+                <span class="C1">C</span>
+                <span class="dash">-</span>
+                <span class="T2">T</span>
+                <span class="A">A</span>
+                <span class="C2">C</span>
+                <span class="dash">-</span>
+                <span class="T3">T</span>
+                <span class="O">O</span>
+                <span class="E">E</span></h3>
+            <div class="score-box">
+                <div class="score-card">
+                    <span class="player">You</span>
+                    <span class="score" id="playerScore">0</span>
+                </div>
+                <div class="round-info">
+                    <span class="round">Round</span>
+                    <span class="round-number" id="currentRound">1</span>
+                </div>
+                <div class="score-card">
+                    <span class="player">Opponent</span>
+                    <span class="score" id="opponentScore">0</span>
+                </div>
+            </div>
+            <div class="status" id="roomStatus"></div>
+            <div class="game-interaction" id="boardArea">
+                <div class="board" id="board" >
+                    <div class="cell" data-cell></div>
+                    <div class="cell" data-cell></div>
+                    <div class="cell" data-cell></div>
+                    <div class="cell" data-cell></div>
+                    <div class="cell" data-cell></div>
+                    <div class="cell" data-cell></div>
+                    <div class="cell" data-cell></div>
+                    <div class="cell" data-cell></div>
+                    <div class="cell" data-cell></div>
+                </div>
+            </div>
+            <div class="result" id="result">
+                <div class="result-card">
+                    <div class="message" id="message">Congratulation!!! You won the the match.</div>
+                    <button id="restart">Restart</button>
+                </div>
+            </div>
+        </section>
 
     </div>
-
-    <div class="winning">
-        <div data-winning-msg-txt id="winningMsg"></div>
-        <button id="restart">Restart</button>
-    </div>
-    
 </body>
 </html>

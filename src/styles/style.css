@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+
+@font-face {
+    font-family: 'More January';
+    src: url('../../public/fonts/MoreJanuary.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+:root{
+    --logo-cell: 70px;
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size)* 0.8);
+    --bg-color: #F4FFFD;
+    --primary-col: #00A9A5;
+    --secondary-col: #0B5351;
+    --tertiary-col:#F0A868;
+}
+
+*,
+*::after,
+*::before{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /* outline: 1px solid green; */
+}
+
+body{
+    margin: 0;
+    background-color: var(--bg-color);
+}
+
+button{
+    font-family: "Comic Neue", serif;
+    font-weight: 600;
+    font-size: 22px;
+    padding: 10px 0;
+    border-radius: 50px;
+    outline: none;
+    border: none;
+    background-color: var(--primary-col);
+    color: white;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: var(--secondary-col);
+    transition: 0.7s ease-in-out;
+}
+
+section{
+    height: 100vh;
+    min-width: 768px;
+    padding: 20px 10px;
+}
+
+
+.container{
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    font-family: "Comic Neue", serif;
+}
+
+.intro{
+    display: grid; /*Change visibility here*/
+    place-items: center;
+}
+
+.title{
+    padding: 20px;
+    max-height: 312px;
+    font-family: 'More January';
+    font-size: 42px;
+}
+
+.T1 { color: #FF4E50; }
+.I  { color: #FFE066; }
+.C1 { color: #4FC3F7; }
+.T2 { color: #A8E6CF; }
+.A  { color: #FFAB40; }
+.C2 { color: #B39DDB; }
+.T3 { color: #FF80AB; }
+.O  { color: #26C6DA; }
+.E  { color: #FFD700; }
+.dash{color: var(--tertiary-col);}
+
+.intro h2{
+    font-weight: 800;
+    font-size: 32px;
+    padding: 10px;
+}
+
+.btn-box{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.join-room{
+    display: flex;
+    border: 1px solid var(--primary-col);
+    border-radius: 50px;
+}
+
+#roomInput{
+    font-family: "Comic Neue", serif;
+    font-size: 18px;
+    margin: 3px 0 3px 20px;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.btn-box button{
+    padding: 10px 20px;
+}
+
+.game{
+    display: none; /*Change visibility here*/
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.game h3{
+    padding: 10px;
+    font-family: 'More January';
+    font-size: 48px;
+    font-weight: 100;
+}
+
+.score-box{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.score-card, .round-info{
+    width: 110px;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.player, .round{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.score, .round-number{
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--primary-col);
+}
+
+.status{
+    text-align: center;
+    margin: 10px 0;
+    font-size: 24px;
+
+}
+
+.board{
+    max-height: 312px;
+    padding: 20px;
+}
+
+.board, .title{
+    width: auto;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.logo-cell{
+    width: var(--logo-cell);
+    height: var(--logo-cell);
+}
+
+.cell{
+    width: var(--cell-size);
+    height: var(--cell-size);
+}
+.cell, .logo-cell{
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3),
+.logo-cell:first-child,
+.logo-cell:nth-child(2),
+.logo-cell:nth-child(3){
+    border-top: none;
+}
+
+.cell.cell:nth-child(3n + 1),
+.logo-cell:nth-child(3n + 1){
+    border-left: none;
+}
+
+.cell:nth-child(3n + 3),
+.logo-cell:nth-child(3n + 3){
+    border-right: none;
+}
+
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7),
+.logo-cell:last-child,
+.logo-cell:nth-child(8),
+.logo-cell:nth-child(7){
+    border-bottom: none;
+}
+
+.cell.cross::before,
+.cell.cell.cross::after{
+    background-color: black;
+}
+
+.board.cross .cell:not(.circle):not(.cross):hover::after,
+.board.cross .cell:not(.circle):not(.cross):hover::before{
+    background-color: lightgray;
+}
+
+.cell.cross::before,
+.cell.cell.cross::after,
+.board.cross .cell:not(.circle):not(.cross):hover::after,
+.board.cross .cell:not(.circle):not(.cross):hover::before{
+    content: "";
+    position: absolute;
+    width: calc(var(--mark-size) * .15);
+    height: var(--mark-size);
+    border-radius: 1rem;
+}
+
+.cell.cross::before,
+.board.cross .cell:not(.circle):not(.cross):hover::before{
+    transform: rotate(45deg);
+}
+
+.cell.cross::after,
+.board.cross .cell:not(.circle):not(.cross):hover::after{
+    transform: rotate(-45deg);
+}
+
+.board.circle .cell:not(.circle):not(.cross):hover::before,
+.board.circle .cell:not(.circle):not(.cross):hover::after,
+.cell.circle::before,
+.cell.cell.circle::after{
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+
+.cell.circle::before{
+    background-color: black;
+}
+
+.board.circle .cell:not(.circle):not(.cross):hover::before{
+    background-color: lightgrey;
+}
+
+
+.cell.circle::before,
+.board.circle .cell:not(.circle):not(.cross):hover::before{
+    width: var(--mark-size);
+    height: var(--mark-size);
+}
+
+.cell.circle::after,
+.board.circle .cell:not(.circle):not(.cross):hover::after{
+    width: calc(var(--mark-size) * .7);
+    height: calc(var(--mark-size) * .7);
+    background-color: var(--bg-color);
+}
+
+.cell.cross,
+.cell.circle{
+    cursor: not-allowed;
+}
+
+.result{
+    display: none;
+    place-items: center;
+}
+
+.result-card{
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.message{
+    font-size: 28px;
+    font-weight: 800;
+}
+
+@media screen and (max-width: 768px) {
+    section {
+        min-width: 100%;
+        padding: 10px 5px;
+    }
+
+    :root {
+        --cell-size: 80px;
+        --logo-cell: 50px;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+
+    .game h3 {
+        font-size: 36px;
+    }
+
+    .btn-box button {
+        font-size: 18px;
+    }
+}
+
