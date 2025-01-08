@@ -130,6 +130,7 @@ section{
 
 .game h3{
     padding: 10px;
+    text-align: center;
     font-family: 'More January';
     font-size: 48px;
     font-weight: 100;
@@ -168,6 +169,12 @@ section{
     margin: 10px 0;
     font-size: 24px;
 
+}
+
+.game-interaction{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
 
 .board{
@@ -298,6 +305,43 @@ section{
     cursor: not-allowed;
 }
 
+.ui-interaction{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.emoji-section{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.emoji{
+    display: grid;
+    place-items: center;
+    padding: 5px;
+    font-size: 48px;
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.emoji:hover{
+    transform: scale(1.2);
+}
+
+.ui-button{
+    display: grid;
+    place-items: center;
+}
+
+.ui-button button{
+    padding: 10px 20px;
+}
+
+
 .result{
     display: none;
     place-items: center;
@@ -315,9 +359,41 @@ section{
     font-weight: 800;
 }
 
+.fountain-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.fountain-emoji {
+    position: absolute;
+    bottom: 0;
+    font-size: 2rem;
+    opacity: 0;
+    animation: fountain 3s ease-out forwards;
+}
+
+@keyframes fountain {
+    0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-200px) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+    }
+}
+
 @media screen and (max-width: 768px) {
     section {
-        min-width: 100%;
+        width: 100%;
         padding: 10px 5px;
     }
 
@@ -336,6 +412,21 @@ section{
 
     .btn-box button {
         font-size: 18px;
+    }
+
+    .game-interaction{
+        grid-template-columns: repeat(1, 1fr);
+        gap: 10px;
+    }
+
+    .emoji-section{
+        max-width: 100%;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+    }
+    
+    .emoji{
+        font-size: 28px;
     }
 }
 

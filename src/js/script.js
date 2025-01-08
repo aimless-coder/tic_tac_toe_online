@@ -6,7 +6,6 @@ socket.on('connect_error', (error) => {
 });
 
 socket.on('connect', () => {
-    // Enable buttons only after connection is established
     quickJoinEl.disabled = false;
     createRoomEl.disabled = false;
     joinRoomEl.disabled = false;
@@ -28,7 +27,10 @@ const resultEl = document.getElementById('result');
 const messageEl = document.getElementById('message');
 const boardEl = document.getElementById('board');
 
+const emojiButtonEl = document.querySelectorAll('.emoji');
 const roomStatusEl = document.getElementById('roomStatus');
+
+const leaveButtonEl = document.getElementById('leaveRoom');
 
 let currentPlayer = 'cross';
 let gameActive = false;
@@ -95,7 +97,6 @@ const updateHover = () => {
     boardEl.classList.add(currentPlayer);
 }
 
-// Fix updateScoreDisplay to properly handle undefined scores
 const updateScoreDisplay = () => {
     if (!scores) {
         scores = {};
@@ -128,11 +129,10 @@ const checkDraw = (board) => {
     return board.every(cell => cell !== '');
 };
 
-// Fix the getOpponentId function to return just the ID string
 const getOpponentId = () => {
     const opponentEntry = Object.entries(scores).find(([id]) => id !== socket.id);
     return opponentEntry ? opponentEntry[0] : null;
-}
+};
 
 const resetBoard = () => {
     gameState = ['', '', '', '', '', '', '', '', ''];
@@ -142,6 +142,34 @@ const resetBoard = () => {
     processingWin = false;
     roundFinished = false;
     updateBoard();
+};
+
+
+const createEmojiFountain = (emoji, isOpponent) => {
+    const fountainContainer = document.createElement('div');
+    fountainContainer.classList.add('fountain-container');
+
+    if (isOpponent) {
+        fountainContainer.style.left = '80%'; 
+    } else {
+        fountainContainer.style.left = '20%';
+    }
+
+    document.body.appendChild(fountainContainer);
+
+    for (let i = 0; i < 5; i++) {
+        const emojiElement = document.createElement('span');
+        emojiElement.classList.add('fountain-emoji');
+        emojiElement.innerText = emoji;
+        fountainContainer.appendChild(emojiElement);
+
+        emojiElement.style.left = `${Math.floor(Math.random() * 100)}%`;
+        emojiElement.style.animationDelay = `${Math.random() * 2}s`;
+    }
+    
+    setTimeout(() => {
+        fountainContainer.remove();
+    }, 3000);
 };
 
 socket.on('roomCreated', (roomId) => {
@@ -260,7 +288,7 @@ socket.on('gameOver', ({ scores: finalScores, winner}) => {
     roundFinished = true;
 });
 
-// Fix moveMade event handler
+
 socket.on('moveMade', ({index, symbol, gameState: newGameState}) => {
     gameState = newGameState;
     currentPlayer = symbol === 'cross' ? 'circle' : 'cross';
@@ -277,7 +305,6 @@ socket.on('moveMade', ({index, symbol, gameState: newGameState}) => {
 
         const winnerId = symbol === playerSymbol ? socket.id : getOpponentId();
         if(winnerId) {
-            // Initialize score if not exists
             if (!scores[winnerId]) {
                 scores[winnerId] = 0;
             }
@@ -318,6 +345,11 @@ socket.on('playerDisconnected', () => {
     messageEl.innerHTML = 'Opponent disconnected!';
 });
 
+socket.on('emojiReceived', ({emoji, playerId}) => {
+    const isOpponent = playerId !== socket.id;
+    createEmojiFountain(emoji, isOpponent);
+});
+
 
 cells.forEach((cell, index) => {
     cell.addEventListener('click', () => {
@@ -338,10 +370,19 @@ createRoomEl.addEventListener('click', () => {
 
 joinRoomEl.addEventListener('click', () => {
     const roomID = roomInputEl.value.trim();
-    console.log('joining room', roomID);
     if (roomID) {
         socket.emit('joinRoom', roomID);
     }
 });
 
+emojiButtonEl.forEach(emoji => {
+    emoji.addEventListener('click', (event) => {
+        const emoji = event.target.innerText;
+        createEmojiFountain(emoji);
+        socket.emit('sendEmoji', {
+            roomId: currentRoom,
+            emoji: emoji
+        });
+    });
+});
 

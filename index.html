@@ -47,7 +47,7 @@
                 <span class="O">O</span>
                 <span class="E">E</span></h3>
             <div class="score-box">
-                <div class="score-card">
+                <div class="score-card" >
                     <span class="player">You</span>
                     <span class="score" id="playerScore">0</span>
                 </div>
@@ -55,7 +55,7 @@
                     <span class="round">Round</span>
                     <span class="round-number" id="currentRound">1</span>
                 </div>
-                <div class="score-card">
+                <div class="score-card" >
                     <span class="player">Opponent</span>
                     <span class="score" id="opponentScore">0</span>
                 </div>
@@ -73,10 +73,24 @@
                     <div class="cell" data-cell></div>
                     <div class="cell" data-cell></div>
                 </div>
+                <div class="ui-interaction">
+                    <div class="emoji-section">
+                        <div class="emoji" id="emoji1">😀</div>
+                        <div class="emoji" id="emoji2">😂</div>
+                        <div class="emoji" id="emoji3">😎</div>
+                        <div class="emoji" id="emoji4">😡</div>
+                        <div class="emoji" id="emoji5">😢</div>
+                        <div class="emoji" id="emoji6">😜</div>
+                    </div>
+                    <div class="ui-button">
+                        <button id="leaveRoom">Leave Game</button>
+                    </div>
+
+                </div>
             </div>
             <div class="result" id="result">
                 <div class="result-card">
-                    <div class="message" id="message">Congratulation!!! You won the the match.</div>
+                    <div class="message" id="message"></div>
                     <button id="restart">Restart</button>
                 </div>
             </div>
