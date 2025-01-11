@@ -16,7 +16,6 @@ const createRoomEl = document.getElementById('createRoom');
 const joinRoomEl = document.getElementById('joinRoom');
 const roomInputEl = document.getElementById('roomInput');
 const cells = document.querySelectorAll('[data-cell]');
-
 const introAreaEl = document.getElementById('introArea');
 const gameAreaEl = document.getElementById('gameArea');
 const boardAreaEl = document.getElementById('boardArea');
@@ -26,11 +25,10 @@ const roundDisplayEl = document.getElementById('currentRound');
 const resultEl = document.getElementById('result');
 const messageEl = document.getElementById('message');
 const boardEl = document.getElementById('board');
-
-const emojiButtonEl = document.querySelectorAll('.emoji');
+const emojiEl = document.querySelectorAll('.emoji');
+const leaveRoomEl = document.getElementById('leaveRoom');
 const roomStatusEl = document.getElementById('roomStatus');
-
-const leaveButtonEl = document.getElementById('leaveRoom');
+const restartEl = document.getElementById('restart');
 
 let currentPlayer = 'cross';
 let gameActive = false;
@@ -132,7 +130,7 @@ const checkDraw = (board) => {
 const getOpponentId = () => {
     const opponentEntry = Object.entries(scores).find(([id]) => id !== socket.id);
     return opponentEntry ? opponentEntry[0] : null;
-};
+}
 
 const resetBoard = () => {
     gameState = ['', '', '', '', '', '', '', '', ''];
@@ -144,15 +142,14 @@ const resetBoard = () => {
     updateBoard();
 };
 
-
 const createEmojiFountain = (emoji, isOpponent) => {
     const fountainContainer = document.createElement('div');
     fountainContainer.classList.add('fountain-container');
 
     if (isOpponent) {
-        fountainContainer.style.left = '80%'; 
+        fountainContainer.style.left = '80%';
     } else {
-        fountainContainer.style.left = '20%';
+        fountainContainer.style.left = '20%'; 
     }
 
     document.body.appendChild(fountainContainer);
@@ -163,14 +160,46 @@ const createEmojiFountain = (emoji, isOpponent) => {
         emojiElement.innerText = emoji;
         fountainContainer.appendChild(emojiElement);
 
-        emojiElement.style.left = `${Math.floor(Math.random() * 100)}%`;
+        // Randomize position and animation delay
+        emojiElement.style.left = `${Math.random() * 100}%`;
         emojiElement.style.animationDelay = `${Math.random() * 2}s`;
+        emojiElement.style.animationDirection = Math.random() > 0.5 ? 'normal' : 'reverse'; // Randomize direction
     }
-    
+
+    // Remove the container after animation
     setTimeout(() => {
         fountainContainer.remove();
     }, 3000);
 };
+
+const resetGame = () => {
+    currentRoom = '';
+    gameState = ['', '', '', '', '', '', '', '', ''];
+    scores = {};
+    currentRound = 1;
+    roundInProgress = true;
+    gameActive = false;
+    bothPlayersJoined = false;
+    processingWin = false;
+    roundFinished = false;
+    playerSymbol = '';
+    currentPlayer = 'cross';
+    resetBoard();
+    gameAreaEl.style.display = 'none';
+    introAreaEl.style.display = 'grid';
+    resultEl.style.display = 'none';
+    boardAreaEl.style.display = 'flex';
+    roomStatusEl.innerHTML = '';
+    messageEl.innerHTML = '';
+    playerScoreDisplayEl.textContent = '0';
+    opponentScoreDisplayEl.textContent = '0';
+    roomInputEl.value = '';
+
+
+    if (socket.connected) {
+        socket.emit('leaveGame', { roomId: currentRoom });
+    }
+}
 
 socket.on('roomCreated', (roomId) => {
     currentRoom = roomId;
@@ -288,7 +317,6 @@ socket.on('gameOver', ({ scores: finalScores, winner}) => {
     roundFinished = true;
 });
 
-
 socket.on('moveMade', ({index, symbol, gameState: newGameState}) => {
     gameState = newGameState;
     currentPlayer = symbol === 'cross' ? 'circle' : 'cross';
@@ -338,18 +366,16 @@ socket.on('moveMade', ({index, symbol, gameState: newGameState}) => {
 socket.on('playerDisconnected', () => {
     bothPlayersJoined = false;
     gameActive = false;
-
     boardAreaEl.style.display = 'none';
-    
     resultEl.style.display = 'grid';
     messageEl.innerHTML = 'Opponent disconnected!';
 });
 
-socket.on('emojiReceived', ({emoji, playerId}) => {
-    const isOpponent = playerId !== socket.id;
-    createEmojiFountain(emoji, isOpponent);
-});
 
+socket.on('gameEnd', (data) => {
+    showResult();
+    messageEl.innerText = data.message;
+});
 
 cells.forEach((cell, index) => {
     cell.addEventListener('click', () => {
@@ -359,30 +385,49 @@ cells.forEach((cell, index) => {
 });
 
 quickJoinEl.addEventListener('click', () => {
+    resetBoard();
     socket.emit('quickJoin');
 });
 
 createRoomEl.addEventListener('click', () => {
     socket.emit('createRoom');
     roomStatusEl.innerHTML = 'Waiting for opponent...';
-
+    
 });
 
 joinRoomEl.addEventListener('click', () => {
     const roomID = roomInputEl.value.trim();
+    console.log('joining room', roomID);
     if (roomID) {
         socket.emit('joinRoom', roomID);
     }
 });
 
-emojiButtonEl.forEach(emoji => {
-    emoji.addEventListener('click', (event) => {
+emojiEl.forEach(emote => {
+    emote.addEventListener('click', (event) => {
         const emoji = event.target.innerText;
-        createEmojiFountain(emoji);
+        const isOpponent = false; 
+        createEmojiFountain(emoji, isOpponent);
         socket.emit('sendEmoji', {
             roomId: currentRoom,
-            emoji: emoji
+            emoji: emoji,
         });
     });
 });
 
+socket.on('emojiReceived', ({emoji, playerId}) => {
+    console.log('emoji received', emoji, playerId, socket.id);
+    if (playerId !== socket.id) {
+        const isOpponent = true; 
+        createEmojiFountain(emoji, isOpponent);
+    }
+});
+
+leaveRoomEl.addEventListener('click', () => {
+    socket.emit('leaveGame', { roomId: currentRoom });
+    resetGame();
+});
+
+restartEl.addEventListener('click', () => {
+    resetGame();
+});

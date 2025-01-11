@@ -329,7 +329,7 @@ section{
 }
 
 .emoji:hover{
-    transform: scale(1.2);
+    transform: scale(0.8);
 }
 
 .ui-button{
@@ -378,22 +378,25 @@ section{
 
 @keyframes fountain {
     0% {
-        transform: translateY(0) scale(0.5);
+        transform: translateY(0) scale(1);
         opacity: 1;
     }
     50% {
-        transform: translateY(-200px) scale(1);
+        transform: translateY(-200px) scale(1.5);
         opacity: 1;
     }
     100% {
-        transform: translateY(0) scale(0.5);
+        transform: translateY(0) scale(1);
         opacity: 0;
     }
 }
 
 @media screen and (max-width: 768px) {
+    .container{
+        padding: 20px;
+    }
     section {
-        width: 100%;
+        min-width: 100%;
         padding: 10px 5px;
     }
 
@@ -415,16 +418,16 @@ section{
     }
 
     .game-interaction{
-        grid-template-columns: repeat(1, 1fr);
+        display: flex;
+        flex-direction: column;
         gap: 10px;
     }
 
     .emoji-section{
-        max-width: 100%;
-        grid-template-columns: repeat(6, 1fr);
+        display: flex;
         gap: 10px;
     }
-    
+
     .emoji{
         font-size: 28px;
     }

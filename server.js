@@ -326,7 +326,7 @@ io.on('connection', (socket) => {
     });
 
     // Handling send emoji event
-    socket.on('sendEmoji', ({ roomId, emoji }) => {
+    socket.on('sendEmoji', ({emoji, roomId}) => {
         const room = rooms.get(roomId); // Get the room by ID
         if (room) {
             io.to(roomId).emit('emojiReceived', {
@@ -342,14 +342,17 @@ io.on('connection', (socket) => {
             socket.leave(roomId);
             const room = rooms.get(roomId);
             if (room) {
-                // Remove player from room
-                room.players = room.players.filter(id => id !== socket.id);
-                // Notify other player
+                // Notify other player first
                 io.to(roomId).emit('playerDisconnected');
-                // If room is empty, delete it
-                if (room.players.length === 0) {
-                    rooms.delete(roomId);
-                }
+                // Remove all players from the socket room
+                room.players.forEach(playerId => {
+                    const playerSocket = io.sockets.sockets.get(playerId);
+                    if (playerSocket) {
+                        playerSocket.leave(roomId);
+                    }
+                });
+                // Delete the room immediately
+                rooms.delete(roomId);
             }
         }
     });
@@ -358,14 +361,17 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         for (const [roomId, room] of rooms.entries()) {
             if (room.players.includes(socket.id)) {
-                // Remove player from room
-                room.players = room.players.filter(id => id !== socket.id);
-                // Notify other player
+                // Notify other player first
                 io.to(roomId).emit('playerDisconnected');
-                // If room is empty, delete it
-                if (room.players.length === 0) {
-                    rooms.delete(roomId);
-                }
+                // Remove all players from the socket room
+                room.players.forEach(playerId => {
+                    const playerSocket = io.sockets.sockets.get(playerId);
+                    if (playerSocket) {
+                        playerSocket.leave(roomId);
+                    }
+                });
+                // Delete the room immediately
+                rooms.delete(roomId);
             }
         }
     });
