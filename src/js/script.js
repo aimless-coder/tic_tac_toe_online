@@ -159,14 +159,12 @@ const createEmojiFountain = (emoji, isOpponent) => {
         emojiElement.classList.add('fountain-emoji');
         emojiElement.innerText = emoji;
         fountainContainer.appendChild(emojiElement);
-
-        // Randomize position and animation delay
+        
         emojiElement.style.left = `${Math.random() * 100}%`;
         emojiElement.style.animationDelay = `${Math.random() * 2}s`;
         emojiElement.style.animationDirection = Math.random() > 0.5 ? 'normal' : 'reverse'; // Randomize direction
     }
 
-    // Remove the container after animation
     setTimeout(() => {
         fountainContainer.remove();
     }, 3000);
