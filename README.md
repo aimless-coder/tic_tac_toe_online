@@ -1,26 +1,51 @@
-# Tic Tac Toe Online
+
+# Tic-Tac-Toe Online
 
 A multiplayer online Tic Tac Toe game where players can play against each other in real-time.
 
+Live demo, visit [Tic-Tac-Toe Online](https://tic-tac-toe-online-a8eq.onrender.com)
+
+
+## Table of Contents
+
+- [Demo](#demo)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+## Demo
+
+Insert gif or link to demo
+
+![Game Screenshot 1](./public/images/demo1.png)
+_Main Menu Screen_
+
+![Game Screenshot 2](./public/images/demo2.png)
+_Gameplay Screen_
 ## Features
 
 - Real-time gameplay
 - Multiplayer support
 - Simple and intuitive interface
+- Emoji reactions
 
-## Getting Started
 
-### Prerequisites
 
-- Node.js (14.x or higher)
-- npm or yarn
+## Tech Stack
 
-### Installation
+- **Frontend**: html, css, JavaScript 
+- **Backend**: Express
+- **Version Control**: Git
+
+## Key Libraries
+
+- socket.io - To enable real-time, bidirectional communication between web clients and servers.
+- socket.io-client - The client-side library for Socket.IO
+## Installation
 
 1. Clone the repository
 
 ```bash
-git clone https://github.com/[your-username]/tic_tac_toe_online.git
+git clone https://github.com/aimless-coder/tic_tac_toe_online.git
 cd tic_tac_toe_online
 ```
 
@@ -28,18 +53,14 @@ cd tic_tac_toe_online
 
 ```bash
 npm install
-# or
-yarn install
 ```
 
 3. Start the development server
 
 ```bash
-npm start
-# or
-yarn start
+node backend/index.js
 ```
-
+    
 ## How to Play
 
 1. Open the game in your browser
@@ -47,11 +68,3 @@ yarn start
 3. Share the game link with your opponent
 4. Take turns placing X's and O's on the board
 5. First player to get three in a row wins!
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
