@@ -12,7 +12,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
-app.use(express.static(path.join(__dirname, '')));
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 const rooms = new Map();
 
