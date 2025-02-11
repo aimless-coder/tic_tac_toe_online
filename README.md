@@ -14,7 +14,7 @@ Live demo, visit [Tic-Tac-Toe Online](https://tic-tac-toe-online-a8eq.onrender.c
 - [Installation](#installation)
 ## Demo
 
-Insert gif or link to demo
+
 
 ![Game Screenshot 1](./screenshot/demo1.png)
 _Main Menu Screen_
