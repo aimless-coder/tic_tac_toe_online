@@ -3,7 +3,7 @@
 
 A multiplayer online Tic Tac Toe game where players can play against each other in real-time.
 
-Live demo, visit [Tic-Tac-Toe Online](https://tic-tac-toe-online-a8eq.onrender.com)
+Live demo, visit [Tic-Tac-Toe Online](https://tic-tac-toe-online-a8eq.onrender.com/)
 
 
 ## Table of Contents
@@ -16,10 +16,10 @@ Live demo, visit [Tic-Tac-Toe Online](https://tic-tac-toe-online-a8eq.onrender.c
 
 Insert gif or link to demo
 
-![Game Screenshot 1](./public/images/demo1.png)
+![Game Screenshot 1](./screenshot/demo1.png)
 _Main Menu Screen_
 
-![Game Screenshot 2](./public/images/demo2.png)
+![Game Screenshot 2](./screenshot/demo2.png)
 _Gameplay Screen_
 ## Features
 
